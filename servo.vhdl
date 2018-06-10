@@ -51,9 +51,9 @@ begin
             if(real(pwm_timer) >= ((1.25/servo_period_ms) + real(to_integer(unsigned(data))))) then
                 pwm <= '0';
                 pwm_timer <= 0;
-            else 
+            else
                 pwm <= '1';
-            end if; 
+            end if;
 
         end if;
     end process;
