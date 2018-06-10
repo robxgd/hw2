@@ -18,17 +18,15 @@ end entity;
 architecture behaviour of servo is
 
     signal pwm_timer : integer := 0;
-    constant servo_freq : positive := 510200;
-	constant servo_period_ms : real :=  0.00196;
+	  constant servo_period_ms : real :=  0.00196;
 
 begin
-    process(clk,rst)
+    process(clk)
     begin
-      if rst = '1' then
+
         --we start the pwm signal every clock. if it is not neceserry, de sc process will stop it.
-        if rising_edge(clk) then
-            --pwm <= '1';
-        end if;
+      if rising_edge(clk) then
+            pwm <= '1';
         end if;
     end process;
 
@@ -51,8 +49,6 @@ begin
             if(real(pwm_timer) >= ((1.25/servo_period_ms) + real(to_integer(unsigned(data))))) then
                 pwm <= '0';
                 pwm_timer <= 0;
-            else
-                pwm <= '1';
             end if;
 
         end if;
