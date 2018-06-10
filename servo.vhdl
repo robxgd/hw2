@@ -31,17 +31,16 @@ begin
 
 
         if rst = '1' then
+            pwm <= '0';
             pwm_timer := 0;
         elsif rising_edge(sc) then
             pwm_timer := pwm_timer + 1;
             if(real(pwm_timer) < ((1.25/servo_period_ms) + real(to_integer(unsigned(data))))) then
                 pwm <= '1';
-            else 
+            else
                 pwm<= '0';
             end if;
         end if;
     end process;
 
 end architecture;
-
-

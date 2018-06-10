@@ -68,6 +68,7 @@ begin
       rst <='1';
       wait for clkPeriod;
       rst <= '0';
+      pos <= 0;
       wait for 2*clkPeriod;
       -- Posities testen
       while (pos < 255) loop
@@ -87,16 +88,18 @@ begin
     end process;
 
 
-   check: process
-   variable aantal: real := 0.0;
-   begin
-     while not EndOfSim loop
-         -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
-         wait until rising_edge(done);
-         wait until rising_edge(pwm);
-         while pwm = '1' loop
-           aantal := aantal + 1.0;
-            wait for PERIOD;
+    check: process
+    variable aantal: real := 0.0;
+    begin
+      while not EndOfSim loop
+          -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
+          wait until done = '1';
+          wait until rising_edge(pwm);
+          report "Start meten";
+          while pwm = '1' loop
+            aantal := aantal + 1.0;
+            wait for 1 us;
+            report real'image(aantal);
           end loop;
           report "Resultaten van servo pwm: Ton= "
   				& real'image(aantal/1000.0) & " ms, positie is " & real'image(((aantal*0.001)-1.25)/real(scPeriod/1 ms))
