@@ -17,7 +17,7 @@ architecture test of tb_servo is
   signal EndOfSim    : boolean := false;
   signal pos         : integer := 0;
   constant clkPeriod : time := 20 ms;
-  constant scPeriod : time := 1961 ns;
+  constant scPeriod : time := 0.001961 ms;
   constant dutyCycle : real := 0.5;
   constant PERIOD : time :=  1 us;
 
@@ -66,10 +66,9 @@ begin
     begin
       -- Initialiseren
       rst <='1';
-      pos <= 125;
       wait for clkPeriod;
       rst <= '0';
-      wait for 5*clkPeriod;
+      wait for 2*clkPeriod;
       -- Posities testen
       while (pos < 255) loop
         wait until rising_edge(clk);
@@ -93,14 +92,15 @@ begin
     begin
       while not EndOfSim loop
           -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
+          wait until rising_edge(done);
           wait until rising_edge(pwm);
           while pwm = '1' loop
             aantal := aantal + 1.0;
-            wait for 1 ns;
+            wait for PERIOD;
           end loop;
-          report "Resultaten van servo pwm is "
-  				& real'image(aantal) & "us, positie is " & real'image(((aantal*0.001)-1250.0)/real(scPeriod/1 ns))
-          & ". De verwachte positie is" & real'image(real(pos));
+          report "Resultaten van servo pwm: Ton= "
+  				& real'image(aantal/1000.0) & " ms, positie is " & real'image(((aantal*0.001)-1.25)/real(scPeriod/1 ms))
+          & ". De verwachte positie is " & real'image(real(pos));
           aantal := 0.0;
       end loop;
       wait;
