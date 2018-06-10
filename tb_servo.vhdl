@@ -87,15 +87,15 @@ begin
     end process;
 
 
-    check: process
-    variable aantal: real := 0.0;
-    begin
-      while not EndOfSim loop
-          -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
-          wait until rising_edge(done);
-          wait until rising_edge(pwm);
-          while pwm = '1' loop
-            aantal := aantal + 1.0;
+   check: process
+   variable aantal: real := 0.0;
+   begin
+     while not EndOfSim loop
+         -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
+         wait until rising_edge(done);
+         wait until rising_edge(pwm);
+         while pwm = '1' loop
+           aantal := aantal + 1.0;
             wait for PERIOD;
           end loop;
           report "Resultaten van servo pwm: Ton= "
