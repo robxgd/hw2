@@ -72,7 +72,7 @@ begin
       pos <= 0;
       wait for clkPeriod;
       -- Posities testen
-      while (pos < 255) loop
+      while (pos < 256) loop
         wait until rising_edge(clk);
         set <= '1';
         data_bus <= "01010101";
@@ -80,8 +80,9 @@ begin
         data_bus <= std_logic_vector(to_unsigned(pos, 8));
         wait until rising_edge(clk);
 			  set <= '0';
-	      wait for 50 ms;
+        wait for 2*clkPeriod;
 	      pos <= pos + 32;
+        wait for clkPeriod;
       end loop;
       EndOfSim <= true;
       report "Test done";
@@ -96,12 +97,13 @@ begin
           aantal <= 0.0;
           wait until done = '1';
           wait until rising_edge(pwm);
-          report "Start meten";
+          report "Start meten met positie " & integer'image(pos);
           while pwm = '1' loop
             aantal <= aantal+ 1.0;
             wait for 1 us;
           end loop;
-          report real'image(aantal/1000.0);
+          report "Gemeten Ton: " & real'image(aantal/1000.0) & " ms en dus " & integer'image(integer((aantal - 1250.0)/1.961)) & "de positie";
+          report "Gewenste Ton: " & real'image((real(pos)*0.001961)+1.25) & " ms";
           -- report "Resultaten van servo pwm: Ton= "
           -- & real'image(aantal/1000.0) & " ms, positie is " & real'image(((aantal*0.001)-1.25)/real(scPeriod/1 ms))
           -- & ". De verwachte positie is " & real'image(real(pos));
