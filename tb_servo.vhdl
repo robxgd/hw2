@@ -16,7 +16,7 @@ architecture test of tb_servo is
   -- extra
   signal EndOfSim    : boolean := false;
   signal pos         : integer := 0;
-  signal aantal      : real := 0.0;
+  signal aantal      : integer := 0;
   constant clkPeriod : time := 20 ms;
   constant scPeriod : time := 0.001961 ms;
   constant dutyCycle : real := 0.5;
@@ -94,15 +94,16 @@ begin
     begin
       while not EndOfSim loop
           -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
-          aantal <= 0.0;
+          aantal <= 0;
           wait until done = '1';
           wait until rising_edge(pwm);
-          report "Start meten met positie " & integer'image(pos);
+          report "Start meten met ingestelde positie " & integer'image(pos);
           while pwm = '1' loop
-            aantal <= aantal+ 1.0;
+            aantal <= aantal+ 1;
             wait for 1 us;
           end loop;
-          report "Gemeten Ton: " & real'image(aantal/1000.0) & " ms en dus " & integer'image(integer((aantal - 1250.0)/1.961)) & "de positie";
+          
+          report "Gemeten Ton: " & real'image(real(aantal)/1000.0) & " ms en dus " & integer'image(integer(real(aantal - 1250)/1.961)) & "de positie";
           report "Gewenste Ton: " & real'image((real(pos)*0.001961)+1.25) & " ms";
           -- report "Resultaten van servo pwm: Ton= "
           -- & real'image(aantal/1000.0) & " ms, positie is " & real'image(((aantal*0.001)-1.25)/real(scPeriod/1 ms))
