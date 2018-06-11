@@ -23,7 +23,7 @@ port(
 end entity servo_controller;
 
 architecture behaviour of servo_controller is
-    --this is the value that decides place of servo. 
+    --this is the value that decides place of servo.
     signal data : std_logic_vector(7 downto 0) := (others=> '0');
 begin
     datacontroller : entity work.data_controller(behaviour)
