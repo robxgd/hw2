@@ -23,7 +23,7 @@ end entity;
 
 architecture behaviour of data_controller is
     --we have three types of states
-    type state is (idle, readAddress);
+    type state is (idle, readAddress,waiting);
     signal currentState : state := idle;
 
 begin
@@ -51,7 +51,7 @@ begin
             when idle =>
                 staat <= "00";
                 if(set = '1') then
-                    if(data_bus = controller_address) then
+                    if(data_bus = controller_address or data_bus = "11111111") then
                         currentState <= readAddress;
                         done <= '0';
                     end if;
@@ -60,9 +60,13 @@ begin
                 end if;
             when readAddress =>
                 staat <= "01";
-                data_out <= data_bus;
-                currentState <= idle;
-
+                if (set = '1') then
+                  data_out <= data_bus;
+                end if;
+                currentState <= waiting;
+            when waiting =>
+              done <= '1';
+              currentState <= idle;
             end case;
         end if;
     end process;
