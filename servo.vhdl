@@ -17,7 +17,7 @@ end entity;
 architecture behaviour of servo is
 
     constant servo_freq : positive := 510200;
-	constant servo_period_ms : real :=  0.00196;
+	constant servo_period_ms : real :=  0.001961;
 
 begin
 

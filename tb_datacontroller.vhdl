@@ -73,15 +73,4 @@ architecture test of tb_datacontroller is
         report "Test done";
         wait;
       end process;
-
-
-
-
-
-
-
-
-
-
-
 end architecture test;
