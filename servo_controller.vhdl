@@ -41,7 +41,7 @@ begin
         port map(
             clk => clk,
             rst => rst,
-			sc => sc,
+						sc => sc,
             data => data,
             pwm => pwm
         );
