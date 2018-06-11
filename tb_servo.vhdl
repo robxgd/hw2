@@ -102,7 +102,7 @@ begin
             aantal <= aantal+ 1;
             wait for 1 us;
           end loop;
-          if 
+          
           report "Gemeten Ton: " & real'image(real(aantal)/1000.0) & " ms en dus " & integer'image(integer(real(aantal - 1250)/1.961)) & "de positie";
           report "Gewenste Ton: " & real'image((real(pos)*0.001961)+1.25) & " ms";
           -- report "Resultaten van servo pwm: Ton= "
