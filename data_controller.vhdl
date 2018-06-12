@@ -13,7 +13,7 @@ entity data_controller is
         set  : in std_logic;
         data_bus  : in std_logic_vector(7 downto 0); --data and address is shared on this bus
         data_out : out std_logic_vector(7 downto 0) := (others => '0');
-        done : out std_logic := '1';
+        done : out std_logic := '1'
         );
 end entity;
 
