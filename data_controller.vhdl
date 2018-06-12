@@ -14,7 +14,6 @@ entity data_controller is
         data_bus  : in std_logic_vector(7 downto 0); --data and address is shared on this bus
         data_out : out std_logic_vector(7 downto 0) := (others => '0');
         done : out std_logic := '1';
-        staat : out std_logic_vector(1 downto 0) := "00"
         );
 end entity;
 
@@ -35,18 +34,13 @@ begin
       elsif rising_edge(clk) then
         case currentState is
             when idle =>
-                staat <= "00";
                 if(set = '1') then
-
                     if((data_bus = controller_address) or (data_bus="11111111")) then
                         currentState <= readAddress;
                         done <= '0';
                     end if;
-                else
-                  done <= '1';
                 end if;
             when readAddress =>
-                staat <= "01";
                 if (set = '1') then
                   data_out <= data_bus;
                 end if;

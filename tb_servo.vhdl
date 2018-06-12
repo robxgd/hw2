@@ -215,7 +215,6 @@ begin
     meet: process
     begin
       while not EndOfSim loop
-          -- Ben niet zeker of het genoeg is zonder dit: wait until falling_edge(set);
           aantal <= 0;
           wait until done = '1';
           wait until rising_edge(pwm);
@@ -230,11 +229,6 @@ begin
           else
             report "Error: Gemeten en gewenste positie komen niet overeen";
           end if;
-          -- report "Gemeten Ton: " & real'image(real(aantal)/1000.0) & " ms en dus " & integer'image(integer(real(aantal - 1250)/1.961)) & "de positie";
-          -- report "Gewenste Ton: " & real'image((real(pos)*0.001961)+1.25) & " ms";
-          -- report "Resultaten van servo pwm: Ton= "
-          -- & real'image(aantal/1000.0) & " ms, positie is " & real'image(((aantal*0.001)-1.25)/real(scPeriod/1 ms))
-          -- & ". De verwachte positie is " & real'image(real(pos));
       end loop;
       wait;
     end process;
